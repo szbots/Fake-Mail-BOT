@@ -1,0 +1,39 @@
+{
+    "name": "Fake-Mail Gen BOT",
+    "description": "Fake Mail gen bot",
+    "repository": "https://github.com/szteambot",
+    "keywords": [
+        "Bot",
+        "Telegram ",
+        "Pyrogram "
+    ],
+    "env": {
+        "API_ID": {
+            "description": "Get from my.telegram.org/apps",
+            "required": true
+        },
+        "API_HASH": {
+            "description": "Get from my.telegram.org/apps",
+            "required": true
+        },
+        "BOT_TOKEN": {
+            "description": "get from @BotFather",
+            "required": true
+        },
+        "DATABASE": {
+            "description": "get from mongo",
+            "required": true
+        }
+    },
+    "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        }
+    ]
+}
