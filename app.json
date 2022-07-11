@@ -2,6 +2,7 @@
     "name": "Fake-Mail Gen BOT",
     "description": "Fake Mail gen bot",
     "repository": "https://github.com/szteambot",
+    "logo":"https://telegra.ph/file/f0537f89c1ef9ccc33ec9.jpg",
     "keywords": [
         "Bot",
         "Telegram ",
@@ -22,6 +23,18 @@
         },
         "DATABASE": {
             "description": "get from mongo",
+            "required": true
+        },
+        "CHANNEL_ID": {
+            "description": "frwd channel msg to @szrosebot and reply with id cmd",
+            "required": true
+        },
+        "CHANNEL": {
+            "description": "channel username without @",
+            "required": true
+        },
+        "OWNER": {
+            "description": "owner id get it from @szrosebot send /id cmd",
             "required": true
         }
     },

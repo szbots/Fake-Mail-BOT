@@ -30,7 +30,7 @@ from database import (
 app = Client(
     "Fake_mail_bot",
     api_hash= os.environ["API_HASH"],
-    api_id=os.environ["API_ID"],
+    api_id= int(os.environ["API_ID"]),
     bot_token=os.environ["BOT_TOKEN"]
 )
 
@@ -49,6 +49,9 @@ Send /domains to get list of Available Domains.
 **Developer** : @ImDenuwan | @szteambots 
 """
 
+CHANNEL_ID = os.environ['CHANNEL_ID']
+CHANNEL = os.environ['CHANNEL']
+OWNER = os.environ['OWNER']
 
 start_button = InlineKeyboardMarkup(
             [
@@ -65,14 +68,14 @@ start_button = InlineKeyboardMarkup(
 @app.on_message(filters.command("start"))
 async def start(_, message: Message):
     try:
-       await message._client.get_chat_member(-1001325914694, message.from_user.id)
+       await message._client.get_chat_member(CHANNEL_ID, message.from_user.id)
     except UserNotParticipant:
        await app.send_message(
 			chat_id=message.from_user.id,
 			text=f"""
 🚧 **Access Denied** {message.from_user.mention}
 You must,
-🔹[join Our Telegram Channel](https://t.me/szteambots).
+🔹[join Our Telegram Channel](fhttps://t.me/{CHANNEL}).
 @szteambots
 """)
        return
@@ -235,7 +238,7 @@ async def fakemailgen(_, message: Message):
 #Owner commands pannel here
 #user_count, broadcast_tool
 
-@app.on_message(filters.command("stats") & filters.user(1467358214))
+@app.on_message(filters.command("stats") & filters.user(OWNER))
 async def stats(_, message: Message):
     name = message.from_user.id
     served_chats = len(await get_served_chats())
@@ -276,7 +279,7 @@ async def broadcast_messages(user_id, message):
     except Exception as e:
         return False, "Error"
 
-@app.on_message(filters.private & filters.command("bcast") & filters.user([1467358214,1483482076]) & filters.reply)
+@app.on_message(filters.private & filters.command("bcast") & filters.user(OWNER) & filters.reply)
 async def broadcast_message(_, message):
     b_msg = message.reply_to_message
     chats = await get_served_users() 
@@ -294,11 +297,21 @@ Broadcast Completed:.""")
 
 @app.on_message(filters.command("ads"))
 async def ads_message(_, message):
-	await app.forward_messages(
-		chat_id = message.chat.id, 
-		from_chat_id = int(-1001356358215), 
-		message_ids = 2255,
-	)
+    await message.reply_text(
+"""     📮Advertise On Telegram 🚀
+
+Want to promote anything ? 
+
+Rose Bot is here with your basic needs. We work in around 2.5 thousand chats with thousand of userbase. One promotional broadcast reaches to thousands of peoples. 
+
+Want to promote your online business ? Want to get people engagement? We are here!
+
+Promote whatever you want at lowest and affordable prices.
+
+https://telega.io/catalog_bots/szrosebot/card
+
+🔥Your broadcast will reach group also so minimum 50k users see your message.
+""")
 
 print("I'm Alive Now!")
 app.run()
