@@ -49,9 +49,9 @@ Send /domains to get list of Available Domains.
 **Developer** : @ImDenuwan | @szteambots 
 """
 
-CHANNEL_ID = os.environ['CHANNEL_ID']
+CHANNEL_ID = int(os.environ['CHANNEL_ID'])
 CHANNEL = os.environ['CHANNEL']
-OWNER = os.environ['OWNER']
+OWNER = int(os.environ['OWNER'])
 
 start_button = InlineKeyboardMarkup(
             [
