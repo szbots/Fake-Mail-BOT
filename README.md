@@ -3,7 +3,7 @@
 
 ## 👨‍💻Dᴇᴠᴇʟᴏᴘᴇʀ : @ImDenuwan
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/szteambot/Fake-Mail-BOT)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
  
  
  ###  Credits ❤

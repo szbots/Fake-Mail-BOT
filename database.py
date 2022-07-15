@@ -13,6 +13,7 @@ db = mongo_client.users
 userdb = db.users
 
 #===================== User database ================================
+
 async def is_served_user(user_id: int) -> bool:
     user = await userdb.find_one({"bot_users": user_id})
     if not user:
@@ -41,6 +42,7 @@ async def remove_served_user(user_id: int):
     return await userdb.delete_one({"bot_users": user_id})
 
 #===================== groups  database ================================
+
 async def get_served_chats() -> list:
     chats = userdb.find({"chat_id": {"$lt": 0}})
     if not chats:
