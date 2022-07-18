@@ -75,7 +75,7 @@ async def start(_, message: Message):
 			text=f"""
 🚧 **Access Denied** {message.from_user.mention}
 You must,
-🔹[join Our Telegram Channel](fhttps://t.me/{CHANNEL}).
+🔹[join Our Telegram Channel](https://t.me/{CHANNEL}).
 @szteambots
 """)
        return
