@@ -34,60 +34,47 @@ app = Client(
     bot_token=os.environ["BOT_TOKEN"]
 )
 
-#********************************************************************************
-start_text = """
-Hello! {}, 
-I can create **temp emails** for you. Send /new to **create new mail** !
-
-**Advantages**
-   • None Blacklisted Domains(Fresh Domains).
-   • [API](https://www.1secmail.com/api/v1/) base Email box .
-   • 24 hours Active (paid hosting).
-
-Send /domains to get list of Available Domains.
-
-**Developer** : @ImDenuwan | @szteambots 
-"""
-
 CHANNEL_ID = int(os.environ['CHANNEL_ID'])
 CHANNEL = os.environ['CHANNEL']
 OWNER = int(os.environ['OWNER'])
 
+start_text = """
+Hello {} , Welcome To The Temp| Fake Mail Bot
+
+On this bot you can create a temporary (disposable) email in a second, that self-destructs after some time. Stay safe, avoid spam - take care of your anonymity. You can select from many domains and create own nick. Smart, huh?
+
+Send /new to set-up your MailBox! """
 start_button = InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton("👥 Group", url="https://t.me/slbotzone"),
-                    InlineKeyboardButton("🗣 Channel", url="https://t.me/szteambots")
-                ],
-		        [
-                    InlineKeyboardButton("➕Add to Group ➕", url=f"http://t.me/szFakeMailBot?startgroup=new"),
-                ]    
-            ]
-)
+            [[
+                    InlineKeyboardButton("Support Group", url="https://t.me/slbotzone"),
+                    InlineKeyboardButton("News Channel", url="https://t.me/szteambots")
+            ]])
+fsub_text = """
+**❗️ ATTENTION**
+
+You see this message because you are not subscribed to the channel:
+@szteambots
+
+It is important that you are up to date with the latest updates and aware of the brand new functionality."""
+
+
+async def get_user(message):
+    ok = True
+    try:
+        await message._client.get_chat_member(CHANNEL_ID, message.from_user.id)
+        ok = True
+    except UserNotParticipant:
+        ok = False
+    return ok 
 
 @app.on_message(filters.command("start"))
 async def start(_, message: Message):
-    try:
-       await message._client.get_chat_member(CHANNEL_ID, message.from_user.id)
-    except UserNotParticipant:
-       await app.send_message(
+    if not await get_user(message):   
+        return await app.send_message(
 			chat_id=message.from_user.id,
-			text=f"""
-🚧 **Access Denied** {message.from_user.mention}
-You must,
-🔹[join Our Telegram Channel](https://t.me/{CHANNEL}).
-@szteambots
-""")
-       return
+			text=fsub_text) 
     name = message.from_user.id
-    if message.chat.type != "private":
-       await app.send_message(
-        name,
-        text = start_text.format(message.from_user.mention),
-        reply_markup = start_button)
-       return await add_served_chat(message.chat.id) 
-    else:
-        await app.send_message(
+    await app.send_message(
     name,
     text = start_text.format(message.from_user.mention),
     reply_markup = start_button)
@@ -106,7 +93,7 @@ create = InlineKeyboardMarkup(
 @app.on_message(filters.command("new"))
 async def fakemailgen(_, message: Message):
     name = message.from_user.id
-    m =  await app.send_message(name,text=f"📧 Creating  temp email....",reply_markup = create)
+    m =  await app.send_message(name,text=f"Please Wait...",reply_markup = create)
     rp = RandomWord(max_word_size=8, include_digits=True)
     email = rp.generate()
     xx = requests.get(API1).json()
@@ -119,7 +106,7 @@ async def fakemailgen(_, message: Message):
 📧 **Email** : `{email}@{domain}`
 📨 **Mail BOX** : `empty`
 **Powered by** : @szteambots """,
-    reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("♻️ Update Mail BOX ♻️", callback_data = f"mailbox |{email}|{domain}")]]))
+    reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔰Update Mail Box🔰", callback_data = f"mailbox |{email}|{domain}")]]))
     pi = await mes.pin(disable_notification=True, both_sides=True)
     await m.delete()
     await pi.delete()
@@ -135,7 +122,7 @@ async def gen_keyboard(mails, email, domain):
         )
         num += 1
     data.append(
-        InlineKeyboardButton(f"♻️ Update Mail BOX ♻️", f"mailbox |{email}|{domain}")
+        InlineKeyboardButton(f"🔰Update Mail Box🔰", f"mailbox |{email}|{domain}")
     )
     i_kbd.add(*data)
     return i_kbd
